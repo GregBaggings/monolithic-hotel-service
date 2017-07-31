@@ -7,9 +7,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "hotels")
-public class hotels {
-
-    // id,name,country,city,address,lat,lon
+public class Hotel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,6 +25,16 @@ public class hotels {
     private Double lat;
     @Column(name = "lon", nullable = false)
     private Double lon;
+
+    public Hotel() {
+        this.id = getId();
+        this.hotelName = getHotelName();
+        this.country = getCountry();
+        this.city = getCity();
+        this.address = getAddress();
+        this.lat = getLat();
+        this.lon = getLon();
+    }
 
     public int getId() {
         return id;
