@@ -23,11 +23,15 @@ public class HotelsDAO {
         return repository.findAll();
     }
 
-    public Hotel findByhotelName(String hotelName) {
-        return repository.findByhotelName(hotelName);
+    public Hotel findByhotelName(String name) {
+        return repository.findByName(name);
     }
 
     public List<Hotel> findAllByCity(String city) {
         return repository.findAllByCity(city);
+    }
+
+    public HotelsRepository.ShortHotelDetails findByHotelName(String name) {
+        return repository.findByHotelName(name);
     }
 }

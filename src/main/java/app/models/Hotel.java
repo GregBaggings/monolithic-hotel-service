@@ -26,16 +26,6 @@ public class Hotel {
     @Column(name = "lon", nullable = false)
     private Double lon;
 
-    public Hotel() {
-        this.id = getId();
-        this.hotelName = getHotelName();
-        this.country = getCountry();
-        this.city = getCity();
-        this.address = getAddress();
-        this.lat = getLat();
-        this.lon = getLon();
-    }
-
     public int getId() {
         return id;
     }

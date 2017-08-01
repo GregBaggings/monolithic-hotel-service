@@ -1,5 +1,6 @@
 package app.services.search;
 
+import app.handlers.ErrorHandler;
 import app.models.Hotel;
 import app.models.HotelsDAO;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -34,6 +35,9 @@ public class SearchController {
     public ResponseEntity<?> hotelsForADestination(@PathVariable("city") String city) {
         List<Hotel> hotels = dao.findAllByCity(city);
 
+        if (hotels.isEmpty()) {
+            return new ResponseEntity(new ErrorHandler("No hotel is available for that target location!"), HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(hotels, HttpStatus.OK);
     }
 }
