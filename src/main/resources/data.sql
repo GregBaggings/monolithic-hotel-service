@@ -5,6 +5,6 @@ INSERT INTO hotels (id,name,country,city,address,lat,lon) VALUES ('4','Hotel4','
 INSERT INTO hotels (id,name,country,city,address,lat,lon) VALUES ('5','Hotel5','Hungary','Budapest','Example Street 2.','47.49801','19.03991');
 
 
-INSERT INTO prices (hotel_id,room_id,room_name,price) VALUES ('1','1','Double Room','5000');
-INSERT INTO prices (hotel_id,room_id,room_name,price) VALUES ('1','2','Single Room','2500');
-INSERT INTO prices (hotel_id,room_id,room_name,price) VALUES ('2','3','Elite Room','10000');
+INSERT INTO prices (hotelid,roomid,roomname,price) VALUES ('1','1','Double Room','5000');
+INSERT INTO prices (hotelid,roomid,roomname,price) VALUES ('1','2','Single Room','2500');
+INSERT INTO prices (hotelid,roomid,roomname,price) VALUES ('2','3','Elite Room','10000');

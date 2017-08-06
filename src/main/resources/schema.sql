@@ -11,9 +11,9 @@ lon decimal(9,6)
 
 CREATE TABLE prices
 (
-hotel_id int NOT NULL,
-room_id int NOT NULL IDENTITY,
-room_name varchar(50),
+hotelid int NOT NULL,
+roomid int NOT NULL IDENTITY,
+roomname varchar(50),
 price int,
-constraint FK_HOTELID FOREIGN KEY (hotel_id) references hotels (id)
+constraint FK_HOTELID FOREIGN KEY (hotelid) references hotels (id)
 );

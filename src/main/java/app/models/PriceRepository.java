@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface PriceRepository extends JpaRepository<Price, Integer> {
     List<Price> findAll();
+
+    List<Price> findAllByhotelId(int id);
 }

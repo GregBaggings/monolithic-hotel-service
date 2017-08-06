@@ -17,6 +17,8 @@ public interface HotelsRepository extends JpaRepository<Hotel, Integer> {
     @Query(value = "SELECT h FROM Hotel h where h.hotelName = ?1")
     Hotel findByName(String name);
 
+    Hotel findById(int id);
+
     ShortHotelDetails findByHotelName(String name);
 
 

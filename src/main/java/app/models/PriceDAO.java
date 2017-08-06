@@ -22,4 +22,8 @@ public class PriceDAO {
     public List<Price> findAll() {
         return repository.findAll();
     }
+
+    public List<Price> findAllByhotelId(int id) {
+        return repository.findAllByhotelId(id);
+    }
 }

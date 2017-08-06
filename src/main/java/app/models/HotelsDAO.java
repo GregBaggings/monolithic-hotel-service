@@ -27,6 +27,10 @@ public class HotelsDAO {
         return repository.findByName(name);
     }
 
+    public Hotel findById(int id) {
+        return repository.findById(id);
+    }
+
     public List<Hotel> findAllByCity(String city) {
         return repository.findAllByCity(city);
     }

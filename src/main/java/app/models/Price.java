@@ -9,39 +9,39 @@ import javax.persistence.*;
 @Table(name = "prices")
 public class Price {
 
-    @Column(name = "hotel_id", nullable = false)
-    private int hotel_id;
+    @Column(name = "hotelid", nullable = false)
+    private int hotelId;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "room_id", nullable = false)
-    private int room_id;
-    @Column(name = "room_name", nullable = false)
-    private String room_name;
+    @Column(name = "roomid", nullable = false)
+    private int roomId;
+    @Column(name = "roomname", nullable = false)
+    private String roomName;
     @Column(name = "price", nullable = false)
     private int price;
 
+    public int getHotelId() {
+        return hotelId;
+    }
+
+    public void setHotelId(int hotelId) {
+        this.hotelId = hotelId;
+    }
+
     public int getRoomId() {
-        return room_id;
+        return roomId;
     }
 
-    public void setRoomId(int id) {
-        this.room_id = room_id;
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
     }
 
-    public int getHotel_id() {
-        return hotel_id;
+    public String getRoomName() {
+        return roomName;
     }
 
-    public void setHotel_id(int hotel_id) {
-        this.hotel_id = hotel_id;
-    }
-
-    public String getRoom_name() {
-        return room_name;
-    }
-
-    public void setRoom_name(String room_name) {
-        this.room_name = room_name;
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
     }
 
     public int getPrice() {
