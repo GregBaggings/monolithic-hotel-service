@@ -23,9 +23,9 @@ import java.util.List;
 @RestController
 public class PriceController {
 
-    JSONObject jsonObject = new JSONObject();
-    JSONArray hotelsJSON = new JSONArray();
-    JSONArray pricesJSON = new JSONArray();
+    private JSONObject jsonObject = new JSONObject();
+    private JSONArray hotelsJSON = new JSONArray();
+    private JSONArray pricesJSON = new JSONArray();
 
     @Autowired
     PriceDAO priceDAO;
@@ -43,6 +43,9 @@ public class PriceController {
     @RequestMapping("/v1/hotels/prices")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public ResponseEntity<?> pricesWithHotel() {
+
+        clearContent();
+
         List<Hotel> hotels = hotelDAO.findAll();
         List<Price> prices = priceDAO.findAll();
 
@@ -59,6 +62,9 @@ public class PriceController {
     @RequestMapping("/v2/hotels/prices")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public ResponseEntity<?> pricesForAHotelByID(@RequestParam("id") int id) {
+
+        clearContent();
+
         Hotel hotels = hotelDAO.findById(id);
         List<Price> prices = priceDAO.findAllByhotelId(id);
 
@@ -75,6 +81,9 @@ public class PriceController {
     @RequestMapping("/v3/hotels/prices")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public ResponseEntity<?> pricesForAHotelByIDv2(@RequestParam("id") int id) {
+
+        clearContent();
+
         Hotel hotels = hotelDAO.findById(id);
         List<Price> prices = priceDAO.findAllByhotelId(id);
 
@@ -87,9 +96,15 @@ public class PriceController {
         hotelDetails.put("address", hotels.getAddress());
 
         jsonObject.put("result", "OK");
-        jsonObject.put("hoteldetails", hotelDetails);
+        jsonObject.put("hotelDetails", hotelDetails);
         jsonObject.put("pricing", prices);
 
         return new ResponseEntity<>(jsonObject, HttpStatus.OK);
+    }
+
+    private void clearContent() {
+        hotelsJSON.clear();
+        pricesJSON.clear();
+        jsonObject.clear();
     }
 }
