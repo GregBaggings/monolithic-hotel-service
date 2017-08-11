@@ -1,5 +1,6 @@
 package app.services.pricing;
 
+import app.handlers.ErrorHandler;
 import app.models.Hotel;
 import app.models.HotelsDAO;
 import app.models.Price;
@@ -42,50 +43,16 @@ public class PriceController {
 
     @RequestMapping("/v1/hotels/prices")
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    public ResponseEntity<?> pricesWithHotel() {
-
-        clearContent();
-
-        List<Hotel> hotels = hotelDAO.findAll();
-        List<Price> prices = priceDAO.findAll();
-
-        hotelsJSON.add(hotels);
-        pricesJSON.add(prices);
-
-        jsonObject.put("result", "OK");
-        jsonObject.put("hotels", hotelsJSON);
-        jsonObject.put("roomPrices", pricesJSON);
-
-        return new ResponseEntity<>(jsonObject, HttpStatus.OK);
-    }
-
-    @RequestMapping("/v2/hotels/prices")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public ResponseEntity<?> pricesForAHotelByID(@RequestParam("id") int id) {
-
-        clearContent();
-
-        Hotel hotels = hotelDAO.findById(id);
-        List<Price> prices = priceDAO.findAllByhotelId(id);
-
-        hotelsJSON.add(hotels);
-        pricesJSON.add(prices);
-
-        jsonObject.put("result", "OK");
-        jsonObject.put("hotels", hotelsJSON);
-        jsonObject.put("roomPrices", pricesJSON);
-
-        return new ResponseEntity<>(jsonObject, HttpStatus.OK);
-    }
-
-    @RequestMapping("/v3/hotels/prices")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     public ResponseEntity<?> pricesForAHotelByIDv2(@RequestParam("id") int id) {
 
         clearContent();
 
         Hotel hotels = hotelDAO.findById(id);
         List<Price> prices = priceDAO.findAllByhotelId(id);
+
+        if (prices.isEmpty() || hotels == null) {
+            return new ResponseEntity<>(new ErrorHandler("No data was found for id: " + id), HttpStatus.NOT_FOUND);
+        }
 
         hotelsJSON.add(prices);
 
