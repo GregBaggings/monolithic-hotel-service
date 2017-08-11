@@ -43,7 +43,7 @@ public class PriceController {
 
     @RequestMapping("/v1/hotels/prices")
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    public ResponseEntity<?> pricesForAHotelByIDv2(@RequestParam("id") int id) {
+    public ResponseEntity<?> pricesForAHotelByID(@RequestParam("id") int id) {
 
         clearContent();
 
