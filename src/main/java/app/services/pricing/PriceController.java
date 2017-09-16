@@ -1,21 +1,18 @@
-package app.services.pricing;
+package app.pricing;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import app.handlers.ErrorHandler;
-import app.models.Hotel;
-import app.models.HotelsDAO;
 import app.models.Price;
 import app.models.PriceDAO;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -23,55 +20,40 @@ import java.util.List;
  */
 @RestController
 public class PriceController {
-
-    private JSONObject jsonObject = new JSONObject();
-    private JSONArray hotelsJSON = new JSONArray();
-    private JSONArray pricesJSON = new JSONArray();
+    private ErrorHandler incorrectInputHandler = new ErrorHandler("Incorrect input. Please use only numbers!");
+    private ErrorHandler missingParameterHandler = new ErrorHandler("Missing param: ID");
 
     @Autowired
     PriceDAO priceDAO;
-    @Autowired
-    HotelsDAO hotelDAO;
 
-    @RequestMapping("/v1/hotels/price")
+    @RequestMapping("/v1/hotels/prices")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public ResponseEntity<?> roomPrices() {
         List<Price> prices = priceDAO.findAll();
+        return new ResponseEntity<>(prices, HttpStatus.OK);
+    }
+
+    @RequestMapping("/v1/hotels/prices/price")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public ResponseEntity<?> roomPricesForAHotelByID(@Validated @RequestParam(value = "id", required = true) int id) {
+        List<Price> prices = priceDAO.findAllByhotelId(id);
+
+        if (prices.isEmpty()) {
+            return new ResponseEntity<>(new ErrorHandler("No data was found for id: " + id), HttpStatus.NOT_FOUND);
+        }
 
         return new ResponseEntity<>(prices, HttpStatus.OK);
     }
 
-    @RequestMapping("/v1/hotels/prices")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public ResponseEntity<?> pricesForAHotelByID(@RequestParam("id") int id) {
-
-        clearContent();
-
-        Hotel hotels = hotelDAO.findById(id);
-        List<Price> prices = priceDAO.findAllByhotelId(id);
-
-        if (prices.isEmpty() || hotels == null) {
-            return new ResponseEntity<>(new ErrorHandler("No data was found for id: " + id), HttpStatus.NOT_FOUND);
-        }
-
-        hotelsJSON.add(prices);
-
-        HashMap<Object, Object> hotelDetails = new HashMap<>();
-        hotelDetails.put("hotelName", hotels.getHotelName());
-        hotelDetails.put("country", hotels.getCountry());
-        hotelDetails.put("city", hotels.getCity());
-        hotelDetails.put("address", hotels.getAddress());
-
-        jsonObject.put("result", "OK");
-        jsonObject.put("hotelDetails", hotelDetails);
-        jsonObject.put("pricing", prices);
-
-        return new ResponseEntity<>(jsonObject, HttpStatus.OK);
+    @ExceptionHandler(TypeMismatchException.class)
+    @ResponseBody
+    public ResponseEntity<?> wrongType(Exception exception, HttpServletRequest request) {
+        return new ResponseEntity<>(incorrectInputHandler, HttpStatus.BAD_REQUEST);
     }
 
-    private void clearContent() {
-        hotelsJSON.clear();
-        pricesJSON.clear();
-        jsonObject.clear();
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    @ResponseBody
+    public ResponseEntity<?> missingParam(Exception exception, HttpServletRequest request) {
+        return new ResponseEntity<>(missingParameterHandler, HttpStatus.BAD_REQUEST);
     }
 }
