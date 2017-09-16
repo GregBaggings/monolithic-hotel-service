@@ -25,6 +25,8 @@ public class Hotel {
     private Double lat;
     @Column(name = "lon", nullable = false)
     private Double lon;
+    @Column(name = "minprice", nullable = false)
+    private int minprice;
 
     public int getId() {
         return id;
@@ -80,5 +82,13 @@ public class Hotel {
 
     public void setLon(Double lon) {
         this.lon = lon;
+    }
+
+    public int getMinprice() {
+        return minprice;
+    }
+
+    public void setMinprice(int minprice) {
+        this.minprice = minprice;
     }
 }

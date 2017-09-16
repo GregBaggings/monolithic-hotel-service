@@ -9,7 +9,6 @@ import java.util.List;
  * Created by Gergely_Agnecz on 7/27/2017.
  */
 public interface HotelsRepository extends JpaRepository<Hotel, Integer> {
-
     List<Hotel> findAll();
 
     List<Hotel> findAllByCity(String city);
