@@ -1,9 +1,9 @@
-package app.pricing;
+package app.services.pricing;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import app.handlers.ErrorHandler;
 import app.models.Price;
 import app.models.PriceDAO;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
