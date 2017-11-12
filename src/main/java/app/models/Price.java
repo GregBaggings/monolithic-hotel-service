@@ -51,4 +51,14 @@ public class Price {
     public void setPrice(int price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return "Price{" +
+                "hotelId=" + hotelId +
+                ", roomId=" + roomId +
+                ", roomName='" + roomName + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }
